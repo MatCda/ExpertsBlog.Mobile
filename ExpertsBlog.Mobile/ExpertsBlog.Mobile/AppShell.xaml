@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Pages="clr-namespace:ExpertsBlog.Mobile.Pages"
+     x:Class="ExpertsBlog.Mobile.AppShell">
+    
+    <FlyoutItem Title="Blog Post">
+        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate Pages:MainPage}"></ShellContent>
+        
+    </FlyoutItem>
+    <FlyoutItem Title="A Propos">
+        <ShellContent Route="About" ContentTemplate="{DataTemplate Pages:AboutPage}"></ShellContent>
+    </FlyoutItem>
+</Shell>
