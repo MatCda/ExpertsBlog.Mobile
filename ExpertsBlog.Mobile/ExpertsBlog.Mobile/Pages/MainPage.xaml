@@ -7,43 +7,45 @@
     
     <ContentPage.BindingContext>
         <ViewModels:MainViewModel/>
-
     </ContentPage.BindingContext>
+    
     <ContentPage.Resources>
         <DataTemplate x:Key="BlogpostTemplate">
-            <Grid HeightRequest="100">
-                <Grid.RowDefinitions >
-                    <RowDefinition />
-                    <RowDefinition />
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
-
+                <Image Grid.RowSpan="2"
+                       Source="{Binding ImageUrl}"
+                       Aspect="AspectFill"
+                       HeightRequest="60"
+                       WidthRequest="60" />
+                <Label Grid.Column="1"
+                       Text="{Binding Title}" 
+                       FontAttributes="Bold" />
+                <Label Grid.Row="1"
+                       Grid.Column="1"
+                       FontAttributes="Italic"
+                       VerticalOptions="End">
+                    <Label.Text>
+                            <MultiBinding StringFormat="{}Le {0}, par {1}">
+                                <Binding Path="Creation"/>
+                                <Binding Path="Author"/>
+                            </MultiBinding>
+                        </Label.Text>
+                </Label>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DetailsCommand, Source={RelativeSource AncestorType={x:Type ViewModels:MainViewModel}}}" CommandParameter="{Binding .}"/>
+                </Grid.GestureRecognizers>
             </Grid>
-            
-            <!--<StackLayout>
-                <Image HeightRequest="50">
-                    <Image.Source>
-                        <UriImageSource Uri="{Binding ImageUrl}"/>
-                    </Image.Source>
-                </Image>
-
-                <Label Text="{Binding Title}" Padding="10" VerticalTextAlignment="Center"  HeightRequest="50" TextColor="Purple"/>
-            </StackLayout>-->
         </DataTemplate>
     </ContentPage.Resources>
-    <Grid HeightRequest="200">
-        <Label Text="image" Grid.Column="0" Grid.RowSpan="2" BackgroundColor="red"/>
-        <Label Text="Blog" Grid.Column="1" Grid.Row="0" BackgroundColor="Blue"/>
-        <Label Text="Description" Grid.Column="1" Grid.Row="1" BackgroundColor="Green"/>
-        
-        
-    </Grid>
-    <!--<StackLayout>
-        <CollectionView ItemsSource="{Binding BlogPosts}" ItemTemplate="{StaticResource BlogpostTemplate} "/>
-    </StackLayout>-->
-
+    
+    <CollectionView ItemsSource="{Binding BlogPosts}" ItemTemplate="{StaticResource BlogpostTemplate} "/>
+ 
 </ContentPage>

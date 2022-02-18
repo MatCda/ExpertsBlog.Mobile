@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:ExpertsBlog.Mobile.ViewModels"
+             x:Class="ExpertsBlog.Mobile.Pages.DetailsPage">
+
+    <ContentPage.BindingContext>
+        <ViewModels:DetailsViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding Title}" />
+            <Label Text="{Binding Content}" />
+            <Label Text="{Binding Creation}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

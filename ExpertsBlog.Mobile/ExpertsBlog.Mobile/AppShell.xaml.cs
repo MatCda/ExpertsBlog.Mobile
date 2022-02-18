@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpertsBlog.Mobile.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace ExpertsBlog.Mobile
         public AppShell()
         {
             InitializeComponent();
-            
+            Routing.RegisterRoute(nameof(DetailsPage), typeof(DetailsPage));
         }
     }
 }
