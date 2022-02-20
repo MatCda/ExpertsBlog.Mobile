@@ -9,10 +9,20 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Title}" />
-            <Label Text="{Binding Content}" />
-            <Label Text="{Binding Creation}" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions >
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="6*"/>
+            </Grid.RowDefinitions >
+            <Frame BorderColor="Black" CornerRadius="10" BackgroundColor="Blue" Padding="10" Grid.Row="0" Margin="5">
+                <Label Text="{Binding Title}"   TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Title" FontAttributes="Bold" />
+            </Frame>
+            <Frame BorderColor="Black" CornerRadius="10" BackgroundColor="LightBlue" Padding="10" Grid.Row="1" Margin="5">
+                <Label Text="{Binding Creation}" Padding="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Italic"/>
+            </Frame>
+            <Label Text="{Binding Content}" Grid.Row="2" Padding="10" VerticalOptions="FillAndExpand"  />
+                
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

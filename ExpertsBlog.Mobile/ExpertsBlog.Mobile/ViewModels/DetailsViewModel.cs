@@ -37,12 +37,21 @@ namespace ExpertsBlog.Mobile.ViewModels
             get => creation;
             set => SetProperty(ref creation, value);
         }
+        private  string name;
+        public  string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+
+        }
 
         private void LoadItem(int id)
         {
             //Id = id;
             Content = "New Content";
+            Title = "Titre";
             Creation = DateTime.Now;
+                    
         }
     }
 }
