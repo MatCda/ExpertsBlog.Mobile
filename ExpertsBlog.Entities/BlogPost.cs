@@ -8,7 +8,9 @@ namespace ExpertsBlog.Entities
         public string Author { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public Category Category { get; set; }
+        public int CategoryId { get; set; }
         public HashSet<Tag> Tags { get; } = new HashSet<Tag>();
-        public Category Categories { get; } = new Category();
+        public HashSet<Address> Addresses { get; set; }
     }
 }
