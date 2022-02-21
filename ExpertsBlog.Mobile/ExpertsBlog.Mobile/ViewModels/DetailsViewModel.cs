@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpertsBlog.Entities;
+using System;
 using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile.ViewModels
@@ -42,7 +43,18 @@ namespace ExpertsBlog.Mobile.ViewModels
         {
             get => name;
             set => SetProperty(ref name, value);
-
+        }
+        private Category category;
+        public Category Category
+        {
+            get => category;
+            set => SetProperty(ref category, value);
+        }
+        private string author;
+        public string Author
+        {
+            get => author;
+            set => SetProperty(ref author, value);
         }
 
         private void LoadItem(int id)
@@ -51,6 +63,11 @@ namespace ExpertsBlog.Mobile.ViewModels
             Content = "New Content";
             Title = "Titre";
             Creation = DateTime.Now;
+            Category = new Category
+            {
+                Name = "Category"
+            };
+            Author = "Auteur";
                     
         }
     }

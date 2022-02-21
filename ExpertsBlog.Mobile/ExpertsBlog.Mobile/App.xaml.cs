@@ -14,6 +14,7 @@ namespace ExpertsBlog.Mobile
 
         protected override void OnStart()
         {
+            
         }
 
         protected override void OnSleep()

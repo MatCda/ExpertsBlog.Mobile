@@ -9,6 +9,6 @@ namespace ExpertsBlog.Entities
         public string Title { get; set; }
         public string Content { get; set; }
         public HashSet<Tag> Tags { get; } = new HashSet<Tag>();
-        public HashSet<Category> Categories { get; } = new HashSet<Category>();
+        public Category Categories { get; } = new Category();
     }
 }
