@@ -7,6 +7,10 @@ using System.Windows.Input;
 using ExpertsBlog.Entities;
 using ExpertsBlog.Mobile.Pages;
 using Xamarin.Forms;
+using System.Net.Http;
+using System;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
@@ -18,21 +22,41 @@ namespace ExpertsBlog.Mobile.ViewModels
             get => blogPosts;
             set => SetProperty(ref blogPosts, value);
         }
+
+        
         public MainViewModel()
         {
-            BlogPosts = new ObservableCollection<BlogPost>();
-            for (int i = 0; i < 10; i++)
+            GetData();
+           
+        }
+        private async void GetData()
+        {
+            using (HttpClient httpClient = new HttpClient()
             {
-                BlogPosts.Add(new BlogPost
+                BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net/")
+            })
+            {
+                var json = await httpClient.GetStringAsync("BlogPosts");
+                Debug.WriteLine("***********************************" + json);
+                var x = JsonConvert.DeserializeObject<IEnumerable<BlogPost>>(json);
+                foreach (var blogPost in x)
                 {
-                    Title = "Title" + i,
-                    ImageUrl = "https://picsum.photos/10/10",
-                    Author = "Author" + i
-
-                });
-
+                    BlogPosts.Add(blogPost);
+                }
             }
         }
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    BlogPosts.Add(new BlogPost
+        //    {
+        //        Title = "Title" + i,
+        //        ImageUrl = "https://picsum.photos/10/10",
+        //        Author = "Author" + i
+
+        //    });
+
+        //}
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         protected void SetProperty<T>(ref T storage, T value, /*Action afteraction = null,*/ [CallerMemberName] string propertyName = null)
@@ -40,17 +64,16 @@ namespace ExpertsBlog.Mobile.ViewModels
             if (EqualityComparer<T>.Default.Equals(storage, value))
             {
                 return;
-            } 
+            }
             storage = value;
             OnPropertyChanged(propertyName);
             //afteraction?.Invoke();
             //return true;
         }
 
-        public  ICommand DetailsCommand => new Command<BlogPost>(async bp =>
-        {
-            await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?{nameof(DetailsViewModel.Id)}={bp.Id}");
-        });
+        public ICommand DetailsCommand => new Command<BlogPost>(async bp =>
+       {
+           await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?{nameof(DetailsViewModel.Id)}={bp.Id}");
+       });
     }
 }
- 
