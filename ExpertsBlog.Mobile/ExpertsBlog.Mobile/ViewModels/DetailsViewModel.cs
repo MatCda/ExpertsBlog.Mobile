@@ -1,7 +1,9 @@
 ﻿using ExpertsBlog.Entities;
+using ExpertsBlog.Mobile.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
 using Xamarin.Forms;
@@ -11,6 +13,8 @@ namespace ExpertsBlog.Mobile.ViewModels
     [QueryProperty(nameof(Id), nameof(Id))]
     public class DetailsViewModel : ViewModelBase
     {
+        private readonly IExpertsBlogApiService apiService = new ExpertsBlogApiService();
+
         private int id;
         public int Id
         {
@@ -63,23 +67,13 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         private async void LoadItem(int id)
         {
-            using (HttpClient httpClient = new HttpClient()
-            {
-                BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net/")
-            })
-            {
-                string blogPostJson = await httpClient.GetStringAsync($"BlogPosts/{id}");
-                BlogPost blogPost = JsonConvert.DeserializeObject<BlogPost>(blogPostJson);
+            BlogPost blogpost = await apiService.GetBlogPost(id);
 
-                string categoryJson = await httpClient.GetStringAsync($"Categories/{blogPost.CategoryId}");
-                Category category = JsonConvert.DeserializeObject<Category>(categoryJson);
-
-                Author = blogPost.Author;
-                Creation = blogPost.Creation;
-                Content = blogPost.Content;
-                Title = blogPost.Title;
-                Category = category;
-            }
+            Author = blogpost.Author;
+            Creation = blogpost.Creation;
+            Title = blogpost.Title;
+            Content = blogpost.Content;
+            Category = blogpost.Category;
         }
     }
 }

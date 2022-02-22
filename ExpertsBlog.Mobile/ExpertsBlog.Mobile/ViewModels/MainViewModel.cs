@@ -11,11 +11,14 @@ using System.Net.Http;
 using System;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using ExpertsBlog.Mobile.Services;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ViewModelBase
     {
+        private readonly IExpertsBlogApiService apiService = new ExpertsBlogApiService();
+
         private ObservableCollection<BlogPost> blogPosts = new ObservableCollection<BlogPost>();
         public ObservableCollection<BlogPost> BlogPosts
         {
@@ -29,47 +32,43 @@ namespace ExpertsBlog.Mobile.ViewModels
             GetData();
            
         }
+
         private async void GetData()
         {
-            using (HttpClient httpClient = new HttpClient()
-            {
-                BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net/")
-            })
-            {
-                var json = await httpClient.GetStringAsync("BlogPosts");
-                Debug.WriteLine("***********************************" + json);
-                var x = JsonConvert.DeserializeObject<IEnumerable<BlogPost>>(json);
-                foreach (var blogPost in x)
-                {
-                    BlogPosts.Add(blogPost);
-                }
-            }
+            BlogPosts = new ObservableCollection<BlogPost>(await apiService.GetBlogPosts());
+
         }
-        //for (int i = 0; i < 10; i++)
+        //private async void GetData()
         //{
-        //    BlogPosts.Add(new BlogPost
+        //    using (HttpClient httpClient = new HttpClient()
         //    {
-        //        Title = "Title" + i,
-        //        ImageUrl = "https://picsum.photos/10/10",
-        //        Author = "Author" + i
-
-        //    });
-
+        //        BaseAddress = new Uri("https://expertsblogapi.azurewebsites.net/")
+        //    })
+        //    {
+        //        var json = await httpClient.GetStringAsync("BlogPosts");
+        //        Debug.WriteLine("***********************************" + json);
+        //        var x = JsonConvert.DeserializeObject<IEnumerable<BlogPost>>(json);
+        //        foreach (var blogPost in x)
+        //        {
+        //            BlogPosts.Add(blogPost);
+        //        }
+        //    }
         //}
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        protected void SetProperty<T>(ref T storage, T value, /*Action afteraction = null,*/ [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return;
-            }
-            storage = value;
-            OnPropertyChanged(propertyName);
-            //afteraction?.Invoke();
-            //return true;
-        }
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //protected void SetProperty<T>(ref T storage, T value, /*Action afteraction = null,*/ [CallerMemberName] string propertyName = null)
+        //{
+        //    if (EqualityComparer<T>.Default.Equals(storage, value))
+        //    {
+        //        return;
+        //    }
+        //    storage = value;
+        //    OnPropertyChanged(propertyName);
+        //    //afteraction?.Invoke();
+        //    //return true;
+        //}
 
         public ICommand DetailsCommand => new Command<BlogPost>(async bp =>
        {
