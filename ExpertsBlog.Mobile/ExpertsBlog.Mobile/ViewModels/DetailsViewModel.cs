@@ -13,7 +13,7 @@ namespace ExpertsBlog.Mobile.ViewModels
     [QueryProperty(nameof(Id), nameof(Id))]
     public class DetailsViewModel : ViewModelBase
     {
-        private readonly IExpertsBlogApiService apiService = new ExpertsBlogApiService();
+        private readonly IExpertsBlogApiService apiService = DependencyService.Get<IExpertsBlogApiService>();
 
         private int id;
         public int Id

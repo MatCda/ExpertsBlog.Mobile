@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using ExpertsBlog.Entities;
+using ExpertsBlog.Mobile.ViewModels;
 
 namespace ExpertsBlog.Mobile.Pages
 {
@@ -15,7 +16,12 @@ namespace ExpertsBlog.Mobile.Pages
         public MainPage()
         {
             InitializeComponent();
+
         }
-        
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ((MainViewModel)BindingContext).Onload();
+        }
     }
 }
