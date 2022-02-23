@@ -13,20 +13,21 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using ExpertsBlog.Mobile.Services;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IExpertsBlogApiService apiService ;
+        private readonly IExpertsBlogApiService apiService;
 
-        private ObservableCollection<BlogPost> blogPosts ;
+        private ObservableCollection<BlogPost> blogPosts;
 
         public ObservableCollection<BlogPost> BlogPosts
         {
             get => blogPosts;
             set => SetProperty(ref blogPosts, value);
-        }    
+        }
         public MainViewModel()
         {
             //GetData();
@@ -38,11 +39,15 @@ namespace ExpertsBlog.Mobile.ViewModels
         {
             Task.Run(async () =>
             {
-                var blogPostFromService = await apiService.GetBlogPosts();
-                foreach (var blogPost in blogPostFromService)
+                if (!BlogPosts.Any())
                 {
-                    BlogPosts.Add(blogPost);
+                    var blogPostFromService = await apiService.GetBlogPosts();
+                    foreach (var blogPost in blogPostFromService)
+                    {
+                        BlogPosts.Add(blogPost);
+                    }
                 }
+
             });
         }
         //private async void GetData()
