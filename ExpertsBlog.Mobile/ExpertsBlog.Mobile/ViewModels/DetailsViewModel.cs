@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ExpertsBlog.Mobile.ViewModels
@@ -13,12 +14,16 @@ namespace ExpertsBlog.Mobile.ViewModels
     [QueryProperty(nameof(Id), nameof(Id))]
     public class DetailsViewModel : ViewModelBase
     {
-        private readonly IExpertsBlogApiService apiService = DependencyService.Get<IExpertsBlogApiService>();
+        private readonly IExpertsBlogApiService apiService;
 
+        public DetailsViewModel()
+        {
+            apiService = DependencyService.Get<IExpertsBlogApiService>();
+        }
         private int id;
         public int Id
         {
-            get => id; 
+            get => id;
             set
             {
                 SetProperty(ref id, value);
@@ -27,7 +32,7 @@ namespace ExpertsBlog.Mobile.ViewModels
         }
 
         private string title;
-        public string Title 
+        public string Title
         {
             get => title;
             set => SetProperty(ref title, value);
@@ -46,8 +51,8 @@ namespace ExpertsBlog.Mobile.ViewModels
             get => creation;
             set => SetProperty(ref creation, value);
         }
-        private  string name;
-        public  string Name
+        private string name;
+        public string Name
         {
             get => name;
             set => SetProperty(ref name, value);
@@ -65,16 +70,20 @@ namespace ExpertsBlog.Mobile.ViewModels
             set => SetProperty(ref author, value);
         }
 
-        private async void LoadItem(int id)
+        private void LoadItem(int id)
         {
-            BlogPost blogpost = await apiService.GetBlogPost(id);
+            //BlogPost blogpost = await apiService.GetBlogPost(id);
+            Task.Run(async () =>
+            {
+                var blogPost = await apiService.GetBlogPost(id);
+                Author = blogPost.Author;
+                Creation = blogPost.Creation;
+                Title = blogPost.Title;
+                Content = blogPost.Content;
+                Category = blogPost.Category;
+            });
 
-            Author = blogpost.Author;
-            Creation = blogpost.Creation;
-            Title = blogpost.Title;
-            Content = blogpost.Content;
-            Category = blogpost.Category;
+
         }
     }
 }
- 
