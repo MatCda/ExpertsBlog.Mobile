@@ -12,32 +12,49 @@ using System;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using ExpertsBlog.Mobile.Services;
+using System.Threading.Tasks;
 
 namespace ExpertsBlog.Mobile.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IExpertsBlogApiService apiService = new ExpertsBlogApiService();
+        private readonly IExpertsBlogApiService apiService ;
 
-        private ObservableCollection<BlogPost> blogPosts = new ObservableCollection<BlogPost>();
+        private ObservableCollection<BlogPost> blogPosts ;
+
         public ObservableCollection<BlogPost> BlogPosts
         {
             get => blogPosts;
             set => SetProperty(ref blogPosts, value);
-        }
-
-        
+        }    
         public MainViewModel()
         {
-            GetData();
-           
+            //GetData();
+            apiService = DependencyService.Get<IExpertsBlogApiService>();
+            BlogPosts = new ObservableCollection<BlogPost>();
+            //Onload();
         }
-
-        private async void GetData()
+        public void Onload()
         {
-            BlogPosts = new ObservableCollection<BlogPost>(await apiService.GetBlogPosts());
-
+            Task.Run(async () =>
+            {
+                var blogPostFromService = await apiService.GetBlogPosts();
+                foreach (var blogPost in blogPostFromService)
+                {
+                    BlogPosts.Add(blogPost);
+                }
+            });
         }
+        //private async void GetData()
+        //{
+        //    BlogPosts = new ObservableCollection<BlogPost>(await apiService.GetBlogPosts());
+
+        //}
+        public ICommand DetailsCommand => new Command<BlogPost>(async bp =>
+       {
+           await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?{nameof(DetailsViewModel.Id)}={bp.Id}");
+       });
+
         //private async void GetData()
         //{
         //    using (HttpClient httpClient = new HttpClient()
@@ -69,10 +86,5 @@ namespace ExpertsBlog.Mobile.ViewModels
         //    //afteraction?.Invoke();
         //    //return true;
         //}
-
-        public ICommand DetailsCommand => new Command<BlogPost>(async bp =>
-       {
-           await Shell.Current.GoToAsync($"{nameof(DetailsPage)}?{nameof(DetailsViewModel.Id)}={bp.Id}");
-       });
     }
 }
