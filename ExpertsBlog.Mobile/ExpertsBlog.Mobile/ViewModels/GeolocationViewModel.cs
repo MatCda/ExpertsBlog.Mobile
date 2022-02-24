@@ -15,44 +15,40 @@ namespace ExpertsBlog.Mobile.ViewModels
 
         public async void CheckAndRequestPermissions()
         {
-            
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (status == PermissionStatus.Denied || status == PermissionStatus.Unknown)
             {
-                var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-                if (status == PermissionStatus.Denied || status == PermissionStatus.Unknown)
-                {
-                    status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                }
+                status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+            }
 
-                // Geolocation
+            // Geolocation
 
-                try
-                {
-                    var location = await Geolocation.GetLastKnownLocationAsync();
+            try
+            {
+                var location = await Geolocation.GetLastKnownLocationAsync();
 
-                    if (location != null)
-                    {
-                        // Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
-                        Location = location;
-                    }
-                }
-                catch (FeatureNotSupportedException fnsEx)
+                if (location != null)
                 {
-                    // Handle not supported on device exception
+                    // Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                    Location = location;
                 }
-                catch (FeatureNotEnabledException fneEx)
-                {
-                    // Handle not enabled on device exception
-                }
-                catch (PermissionException pEx)
-                {
-                    // Handle permission exception
-                }
-                catch (Exception ex)
-                {
-                    // Unable to get location
-                }
-            };
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+            }
         }
     }
-
 }
