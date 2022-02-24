@@ -10,7 +10,7 @@ namespace ExpertsBlog.Entities
         public string Content { get; set; }
         public Category Category { get; set; }
         public int CategoryId { get; set; }
-        public HashSet<Tag> Tags { get; } = new HashSet<Tag>();
-        public HashSet<Address> Addresses { get; set; }
+        public HashSet<Tag> Tags { get; } = new HashSet<Tag>() ;
+        public HashSet<Address> Addresses { get; set; }= new HashSet<Address>() ;
     }
 }
