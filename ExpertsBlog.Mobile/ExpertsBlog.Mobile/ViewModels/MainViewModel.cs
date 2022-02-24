@@ -41,11 +41,12 @@ namespace ExpertsBlog.Mobile.ViewModels
             {
                 if (!BlogPosts.Any())
                 {
-                    var blogPostFromService = await apiService.GetBlogPosts();
-                    foreach (var blogPost in blogPostFromService)
-                    {
-                        BlogPosts.Add(blogPost);
-                    }
+                    var items = await apiService.GetBlogPosts();
+                    //foreach (var blogPost in blogPostFromService)
+                    //{
+                    //    BlogPosts.Add(blogPost);
+                    //}
+                    BlogPosts = new ObservableCollection<BlogPost>(items);
                 }
 
             });
