@@ -7,14 +7,11 @@ namespace ExpertsBlog.Mobile.ViewModels
     {
         public async void Initialize()
         {
-           
-            {
                 var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
                 if (status == PermissionStatus.Denied || status == PermissionStatus.Unknown)
                 {
                     status = await Permissions.RequestAsync<Permissions.Camera>();
                 }
-            };
         }
     }
 
