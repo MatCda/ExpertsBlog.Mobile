@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace ExpertsBlog.Entities
@@ -8,6 +9,7 @@ namespace ExpertsBlog.Entities
         public string Zip { get; set; }
         public string City { get; set; }
         public string Phone { get; set; }
+        [JsonIgnore]
         public BlogPost BlogPost { get; set; }
         public int BlogPostId { get; set; }
     }

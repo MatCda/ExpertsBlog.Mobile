@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:ExpertsBlog.Mobile.ViewModels"
+             xmlns:ViewModel="clr-namespace:ExpertsBlog.Mobile.ViewModels"
              x:Class="ExpertsBlog.Mobile.Pages.DetailsPage">
 
     <ContentPage.BindingContext>
-        <ViewModels:DetailsViewModel/>
+        <ViewModel:DetailsViewModel/>
     </ContentPage.BindingContext>
-
+    
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto,Auto,Auto,*">
+        <Grid RowDefinitions="Auto, Auto, Auto, *, *, Auto">
             <Grid.ColumnDefinitions >
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -30,7 +30,21 @@
             <Frame Grid.Row="1" Grid.Column="1">
                 <Label Text="{Binding Author}" Grid.Row="2" Padding="10" VerticalOptions="FillAndExpand"  />
             </Frame>
-            
+            <CollectionView ItemsSource="{Binding Addresses}"  Grid.ColumnSpan="2" Grid.Row="4" 
+                            BackgroundColor="Beige">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame>
+                            <Label Text="{Binding Street}"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenMapsCommand, Source={RelativeSource AncestorType={x:Type ViewModel:DetailsViewModel}}}" CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Grid.Row="5" Grid.ColumnSpan="2" Command="{Binding ClickCommand}" Text="{Binding Index}"/>
                 
         </Grid>
     </ContentPage.Content>
