@@ -10,9 +10,9 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Location.Latitude, StringFormat='Latitude = {0}'}"></Label>
-            <Label Text="{Binding Location.Longitude, StringFormat='Longitude = {0}'}"></Label>
-            <Label Text="{Binding Location.Altitude, StringFormat='Altitude = {0}'}"></Label>
+            <Label Text="{Binding Location.Latitude}"></Label>
+            <Label Text="{Binding Location.Longitude}"></Label>
+            <Label Text="{Binding Location.Altitude}"></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
