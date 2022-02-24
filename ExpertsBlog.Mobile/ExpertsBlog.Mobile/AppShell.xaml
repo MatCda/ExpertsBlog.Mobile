@@ -7,9 +7,14 @@
     
     <FlyoutItem Title="Blog Post">
         <ShellContent Route="MainPage" ContentTemplate="{DataTemplate Pages:MainPage}"></ShellContent>
-        
     </FlyoutItem>
     <FlyoutItem Title="A Propos">
         <ShellContent Route="About" ContentTemplate="{DataTemplate Pages:AboutPage}"></ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Title="Geolocation">
+        <ShellContent Route="Geolocation" ContentTemplate="{DataTemplate Pages:GeolocationPage}"></ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Title="Camera">
+        <ShellContent Route="Camera" ContentTemplate="{DataTemplate Pages:CameraPage}"></ShellContent>
     </FlyoutItem>
 </Shell>

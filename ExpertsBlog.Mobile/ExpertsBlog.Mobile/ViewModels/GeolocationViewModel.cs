@@ -13,9 +13,9 @@ namespace ExpertsBlog.Mobile.ViewModels
             set => SetProperty(ref location, value);
         }
 
-        public void CheckAndRequestPermissions()
+        public async void CheckAndRequestPermissions()
         {
-            Task.Run(async () =>
+            
             {
                 var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
                 if (status == PermissionStatus.Denied || status == PermissionStatus.Unknown)
@@ -51,7 +51,8 @@ namespace ExpertsBlog.Mobile.ViewModels
                 {
                     // Unable to get location
                 }
-            });
+            };
         }
     }
+
 }
