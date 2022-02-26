@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ExpertsBlog.Mobile.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,8 +29,23 @@ namespace ExpertsBlog.Mobile
         /// <summary>
         /// Méthode appelée lors du démarrage de l'application
         /// </summary>
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+            await CheckPermissions<Permissions.LocationWhenInUse>();
+            await CheckPermissions<Permissions.LocationAlways>();
+            await CheckPermissions<Permissions.Camera>();
+            await CheckPermissions<Permissions.Microphone>();
+        }
+
+        private async Task CheckPermissions<TPermission>()
+            where TPermission : Permissions.BasePermission, new()
+        {
+            var status = await Permissions.CheckStatusAsync<TPermission>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<TPermission>();
+                Console.WriteLine(status);
+            }
         }
 
         /// <summary>

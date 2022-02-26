@@ -32,25 +32,20 @@ namespace ExpertsBlog.Mobile.ViewModels
         {
             //GetData();
             apiService = DependencyService.Get<IExpertsBlogApiService>();
-            BlogPosts = new ObservableCollection<BlogPost>();
+            //BlogPosts = new ObservableCollection<BlogPost>();
             //Onload();
         }
-        public void Onload()
+        public void Initialize()
         {
-            Task.Run(async () =>
-            {
-                if (!BlogPosts.Any())
-                {
-                    var items = await apiService.GetBlogPosts();
-                    //foreach (var blogPost in blogPostFromService)
-                    //{
-                    //    BlogPosts.Add(blogPost);
-                    //}
-                    BlogPosts = new ObservableCollection<BlogPost>(items);
-                }
-
-            });
+            Task.Run(GetBlogPosts);
         }
+
+        private async Task GetBlogPosts()
+        {
+            var items = await apiService.GetBlogPosts();
+            BlogPosts = new ObservableCollection<BlogPost>(items);
+        }
+
         //private async void GetData()
         //{
         //    BlogPosts = new ObservableCollection<BlogPost>(await apiService.GetBlogPosts());
