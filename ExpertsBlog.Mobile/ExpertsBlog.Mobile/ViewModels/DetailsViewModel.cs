@@ -80,6 +80,7 @@ namespace ExpertsBlog.Mobile.ViewModels
             get => author;
             set => SetProperty(ref author, value);
         }
+
         private ObservableCollection<Address> addresses;
         public ObservableCollection<Address> Addresses
         {

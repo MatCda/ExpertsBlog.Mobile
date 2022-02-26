@@ -21,7 +21,7 @@ namespace ExpertsBlog.Mobile.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            ((MainViewModel)BindingContext).Onload();
+            ((MainViewModel)BindingContext).Initialize();
         }
     }
 }

@@ -12,5 +12,7 @@ namespace ExpertsBlog.Entities
         [JsonIgnore]
         public BlogPost BlogPost { get; set; }
         public int BlogPostId { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
